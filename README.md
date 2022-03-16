@@ -1,2 +1,1 @@
-# gtpscodes
-Some Codes for gtps
+Dont sell this or you gay
