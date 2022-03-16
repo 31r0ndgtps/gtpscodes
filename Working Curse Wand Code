@@ -1,0 +1,24 @@
+if (tile == 278) {
+				for (ENetPeer* currentPeer = server->peers; currentPeer < &server->peers[server->peerCount]; ++currentPeer)
+				{
+					if (currentPeer->state != ENET_PEER_STATE_CONNECTED || currentPeer->data == NULL) continue;
+					if (static_cast<PlayerInfo*>(currentPeer->data)->currentWorld != static_cast<PlayerInfo*>(peer->data)->currentWorld) continue;
+					if (x == static_cast<PlayerInfo*>(currentPeer->data)->x / 32 && y == static_cast<PlayerInfo*>(currentPeer->data)->y / 32)
+					{
+						RemoveInventoryItem(278, 1, peer, true);
+						Player::OnConsoleMessage(peer, "`9Used one Curse Wand");
+						Player::OnTalkBubble(peer, pData->netID, "Successfully Cursed" + static_cast<PlayerInfo*>(currentPeer->data)->displayName, 0, true);
+						Player::OnAddNotification(currentPeer, "`wWarning from `4System`w: You've been `4Cursed `wfor 1 Minutes", "audio/hub_open.wav", "interface/atomic_button.rttex");
+						Player::OnConsoleMessage(currentPeer, "`wWarning from `4System`w: You've been `4Cursed `wfor 1 Minutes");
+						static_cast<PlayerInfo*>(currentPeer->data)->isCursed = true;
+						static_cast<PlayerInfo*>(currentPeer->data)->lastCursed = (GetCurrentTimeInternalSeconds()) + (1 * 60);
+						send_state(currentPeer);
+						sendClothes(currentPeer);
+					}
+					else
+					{
+						Player::OnTalkBubble(peer, pData->netID, "Must be used on a person.", 0, true);
+					}
+				}
+				return;
+			}
