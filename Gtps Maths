@@ -16,7 +16,7 @@ void DailyMath() {
 				Player::OnConsoleMessage(currentPeer, "`9** Vintage Daily Math [Questions : `3'" + to_string(resultnbr1) + " + " + to_string(resultnbr2) + "'`9 = ?] Prize: `2" + to_string(prize) + "`9 (gems) ! `o(/a <answer>).");
 				sendSound(currentPeer, "startopia_tool_droid.wav");
 				DailyMaths = true;
- // add in tile.h
+ //add in tile.h
 else if (str.substr(0, 3) == "/a ") {
 		int imie = atoi(str.substr(3, cch.length() - 3 - 1).c_str());
 		if (DailyMaths == false) return;
@@ -47,4 +47,4 @@ else if (str.substr(0, 3) == "/a ") {
 		}
 		}
         
-        
+       
