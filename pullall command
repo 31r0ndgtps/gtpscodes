@@ -32,3 +32,4 @@ else if (str == "/pullall")
 			return;
 		}
 		}
+//add in tile.h
