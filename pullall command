@@ -1,0 +1,34 @@
+else if (str == "/pullall")
+		{
+		//Coded by 31r0nd
+		if (isMod(peer) || static_cast<PlayerInfo*>(peer->data)->rawName == world->owner) {
+			for (ENetPeer* currentPeer = server->peers; currentPeer < &server->peers[server->peerCount]; ++currentPeer) {
+				if (currentPeer->state != ENET_PEER_STATE_CONNECTED || currentPeer->data == NULL) continue;
+				if (isHere(peer, currentPeer)) {
+					PlayerMoving data;
+					data.packetType = 0x0;
+					data.characterState = 0x924;
+					data.x = static_cast<PlayerInfo*>(peer->data)->x;
+					data.y = static_cast<PlayerInfo*>(peer->data)->y;
+					data.punchX = -1;
+					data.punchY = -1;
+					data.XSpeed = 0;
+					data.YSpeed = 0;
+					data.netID = static_cast<PlayerInfo*>(currentPeer->data)->netID;
+					data.plantingTree = 0x0;
+					SendPacketRaw(4, packPlayerMoving(&data), 56, nullptr, currentPeer, ENET_PACKET_FLAG_RELIABLE);
+					GamePacket p2 = packetEnd(appendFloat(appendString(createPacket(), "OnSetPos"), static_cast<PlayerInfo*>(peer->data)->x, static_cast<PlayerInfo*>(peer->data)->y));
+					memcpy(p2.data + 8, &(static_cast<PlayerInfo*>(currentPeer->data)->netID), 4);
+					ENetPacket* packet2 = enet_packet_create(p2.data, p2.len, ENET_PACKET_FLAG_RELIABLE);
+					enet_peer_send(currentPeer, 0, packet2);
+					delete p2.data;
+					if (isWorldOwner(peer, world)) Player::OnTextOverlay(currentPeer, "You were pulled by " + static_cast<PlayerInfo*>(peer->data)->displayName + "");
+					Player::OnConsoleMessage(currentPeer, "" + static_cast<PlayerInfo*>(peer->data)->displayName + " `ppulls `oeveryone!");
+				}
+			}
+		}
+		else {
+			sendWrongCmd(peer);
+			return;
+		}
+		}
