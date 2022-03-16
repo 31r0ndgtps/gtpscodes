@@ -1,0 +1,50 @@
+//add in core.h
+bool DailyMaths = false;
+//add in player.h
+void DailyMath() {
+	while (DailyMath) {
+		if (quest + 400000 < (duration_cast<milliseconds>(system_clock::now().time_since_epoch())).count()) {
+			quest = (duration_cast<milliseconds>(system_clock::now().time_since_epoch())).count();
+			int userMaxRand = 50000, userLowRand = 0;
+			resultnbr2 = rand() % userMaxRand + userLowRand + 1;
+			srand(time(0));
+			resultnbr1 = rand() % userMaxRand + userLowRand + 1;
+			hasil = resultnbr1 + resultnbr2;
+			prize = (rand() % 7220) + 7300;
+			for (ENetPeer* currentPeer = server->peers; currentPeer < &server->peers[server->peerCount]; ++currentPeer) {
+				if (currentPeer->state != ENET_PEER_STATE_CONNECTED) continue;
+				Player::OnConsoleMessage(currentPeer, "`9** Vintage Daily Math [Questions : `3'" + to_string(resultnbr1) + " + " + to_string(resultnbr2) + "'`9 = ?] Prize: `2" + to_string(prize) + "`9 (gems) ! `o(/a <answer>).");
+				sendSound(currentPeer, "startopia_tool_droid.wav");
+				DailyMaths = true;
+ // add in tile.h
+else if (str.substr(0, 3) == "/a ") {
+		int imie = atoi(str.substr(3, cch.length() - 3 - 1).c_str());
+		if (DailyMaths == false) return;
+		if ((str.substr(3, cch.length() - 3 - 1).find_first_not_of("0123456789") != string::npos)) return;
+		if (imie == 0 || imie != hasil) {
+			Player::OnConsoleMessage(peer, "`oYour Answer is Wrong!");
+			return;
+		}
+		if (imie == hasil) {
+			resultnbr1 = 0; resultnbr2 = 0; hasil = 0;
+			std::ifstream ifsz("save/gemdb/_" + static_cast<PlayerInfo*>(peer->data)->rawName + ".txt");
+			std::string content((std::istreambuf_iterator<char>(ifsz)), (std::istreambuf_iterator<char>()));
+			auto gembux = atoi(content.c_str());
+			auto fingembux = gembux + prize;
+			ofstream myfile;
+			myfile.open("save/gemdb/_" + static_cast<PlayerInfo*>(peer->data)->rawName + ".txt");
+			myfile << fingembux;
+			myfile.close();
+			auto gemcalc = gembux + prize;
+			Player::OnSetBux(peer, gemcalc, 0);
+			prize = 0;
+			for (ENetPeer* currentPeer = server->peers; currentPeer < &server->peers[server->peerCount]; ++currentPeer) {
+				if (currentPeer->state != ENET_PEER_STATE_CONNECTED) continue;
+				Player::OnConsoleMessage(currentPeer, "`9** Vintage Daily Math: (party) Party Math Event Winner is `w" + ((PlayerInfo*)(peer->data))->displayName + "`9!");
+				sendSound(currentPeer, "pinata_lasso.wav");
+				DailyMaths = false;
+			}
+		}
+		}
+        
+        
