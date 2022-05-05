@@ -1,0 +1,16 @@
+//add in world.h
+if (WinterfestEvent)
+				if (info.name == "GROWCH") {
+					info.weather = 12;
+				}
+				else {
+					info.weather = 11;
+				}
+//if that code doesnt work use the one below
+if (WinterfestEvent)
+if (world->name == "GROWCH") {
+ Player::OnSetCurrentWeather(peer, 12);
+}
+else {
+Player::OnSetCurrentWeather(peer, 11);
+}
