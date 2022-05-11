@@ -1,0 +1,23 @@
+if (canchat) {
+								if (pData->cantsay) {
+									const string mf[4] = { "mf ff mf fm", "f fmf fmfmf fmm", "mfm ff mf mf", "mff ffmf mf " };
+									string word = mf[rand() % 4];
+									if (world->silence == true && !isWorldOwner(peer, world)) {
+										Player::OnTalkBubble(peer, pData->netID, "`1(Peasants must not to talk)", 0, true);
+										continue;
+									}
+									SendChat(peer, pData->netID, word, world, cch);
+									continue;
+								}
+								else {
+									pData->taped = false;
+									pData->isDuctaped = false;
+									pData->cantsay = false;
+									send_state(peer);
+									sendClothes(peer);
+								}
+							}
+						}
+						break;
+					}
+          //add in main.cpp
