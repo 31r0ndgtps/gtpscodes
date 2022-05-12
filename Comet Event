@@ -1,0 +1,10 @@
+//add in core.h
+bool CometEvent = false;
+
+//add in main.cpp
+CometEvent = false;
+
+//add in tile.h
+if (CometEvent) {
+				info.weather = 16;
+			}
